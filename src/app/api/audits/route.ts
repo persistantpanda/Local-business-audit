@@ -2,6 +2,7 @@ import { z } from "zod";
 import { manualAuditSchema } from "@/lib/providers/manual";
 import { auditDemoBusiness, auditManualBusiness } from "@/lib/server/audit-service";
 import { clientKey, rateLimit } from "@/lib/server/rate-limit";
+import { BodyTooLargeError, readBodyLimited } from "@/lib/server/read-body";
 
 const MAX_BODY_BYTES = 64 * 1024;
 
@@ -15,8 +16,13 @@ function error(status: number, message: string, details?: unknown, headers?: Hea
 }
 
 export async function POST(request: Request) {
-  const body = await request.text();
-  if (body.length > MAX_BODY_BYTES) return error(413, "The request is too large.");
+  let body: string;
+  try {
+    body = await readBodyLimited(request, MAX_BODY_BYTES);
+  } catch (err) {
+    if (err instanceof BodyTooLargeError) return error(413, "The request is too large.");
+    return error(400, "The request body could not be read.");
+  }
 
   let json: unknown;
   try {

@@ -80,12 +80,15 @@ const DIRECTORY_COVERAGE = {
 
 const STOPWORDS = new Set(["and", "the", "for", "with", "services", "service", "shop", "store", "company"]);
 
-/** Word stems from the category, e.g. "Plumbing Contractor" → ["plum", "cont"]. */
+/**
+ * Word stems from the category, e.g. "Plumbing Contractor" → ["plum", "cont"].
+ * Three-letter words ("Gym", "Spa") are kept whole so short categories can be checked.
+ */
 export function categoryStems(category: string): string[] {
   return category
     .toLowerCase()
     .split(/[^a-z]+/)
-    .filter((w) => w.length >= 4 && !STOPWORDS.has(w))
+    .filter((w) => w.length >= 3 && !STOPWORDS.has(w))
     .map((w) => w.slice(0, 4));
 }
 

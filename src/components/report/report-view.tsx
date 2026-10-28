@@ -41,7 +41,7 @@ function OverallStatusBanner({ report }: { report: AuditReport }) {
 
 function RecommendationCard({ rec, index }: { rec: Recommendation; index?: number }) {
   return (
-    <li className="print-break-inside-avoid rounded-xl border border-slate-200 bg-white p-4">
+    <li className="print-break-inside-avoid min-w-0 rounded-xl border border-slate-200 bg-white p-4">
       <div className="flex items-start gap-3">
         {index !== undefined && (
           <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-brand-600 text-sm font-bold text-white">

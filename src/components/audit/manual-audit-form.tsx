@@ -158,14 +158,14 @@ export function ManualAuditFormView() {
           ]}
           hint="Detailed means roughly 250 characters or more."
         />
-        <NumberField label="Additional categories" value={form.gbp.additionalCategoriesCount} onChange={(v) => update("gbp", { additionalCategoriesCount: v })} max={20} />
-        <NumberField label="Posts in the last 30 days" value={form.gbp.postsLast30Days} onChange={(v) => update("gbp", { postsLast30Days: v })} max={500} />
+        <NumberField label="Additional categories" value={form.gbp.additionalCategoriesCount} onChange={(v) => update("gbp", { additionalCategoriesCount: v })} max={20} error={errors["gbp.additionalCategoriesCount"]} />
+        <NumberField label="Posts in the last 30 days" value={form.gbp.postsLast30Days} onChange={(v) => update("gbp", { postsLast30Days: v })} max={500} error={errors["gbp.postsLast30Days"]} />
       </FormSection>
 
       <FormSection title="Reviews" description="From the business's Google profile.">
         <NumberField label="Average star rating" value={form.reviews.averageRating} onChange={(v) => update("reviews", { averageRating: v })} min={1} max={5} step={0.1} error={errors["reviews.averageRating"]} />
-        <NumberField label="Total number of reviews" value={form.reviews.totalReviews} onChange={(v) => update("reviews", { totalReviews: v })} />
-        <NumberField label="Reviews in the last 90 days" value={form.reviews.reviewsLast90Days} onChange={(v) => update("reviews", { reviewsLast90Days: v })} />
+        <NumberField label="Total number of reviews" value={form.reviews.totalReviews} onChange={(v) => update("reviews", { totalReviews: v })} error={errors["reviews.totalReviews"]} />
+        <NumberField label="Reviews in the last 90 days" value={form.reviews.reviewsLast90Days} onChange={(v) => update("reviews", { reviewsLast90Days: v })} error={errors["reviews.reviewsLast90Days"]} />
         <NumberField label="Share of reviews with an owner reply" value={form.reviews.responseRatePercent} onChange={(v) => update("reviews", { responseRatePercent: v })} max={100} suffix="%" error={errors["reviews.responseRatePercent"]} />
         <TextField
           label="Date of most recent review"
@@ -178,8 +178,8 @@ export function ManualAuditFormView() {
       </FormSection>
 
       <FormSection title="Photos & social media">
-        <NumberField label="Photos on the Google profile" value={form.photos.totalPhotos} onChange={(v) => update("photos", { totalPhotos: v })} />
-        <NumberField label="New photos in the last 90 days" value={form.photos.photosLast90Days} onChange={(v) => update("photos", { photosLast90Days: v })} />
+        <NumberField label="Photos on the Google profile" value={form.photos.totalPhotos} onChange={(v) => update("photos", { totalPhotos: v })} error={errors["photos.totalPhotos"]} />
+        <NumberField label="New photos in the last 90 days" value={form.photos.photosLast90Days} onChange={(v) => update("photos", { photosLast90Days: v })} error={errors["photos.photosLast90Days"]} />
         <TriField label="Logo uploaded?" value={form.photos.hasLogo} onChange={(v) => update("photos", { hasLogo: v })} />
         <TriField label="Cover photo set?" value={form.photos.hasCoverPhoto} onChange={(v) => update("photos", { hasCoverPhoto: v })} />
         <fieldset className="sm:col-span-2">

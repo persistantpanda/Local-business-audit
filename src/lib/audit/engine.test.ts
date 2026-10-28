@@ -116,3 +116,13 @@ describe("runAudit", () => {
     expect(input).toEqual(snapshot);
   });
 });
+
+describe("service keyword check", () => {
+  it.each(["Gym", "Spa", "Bar", "Pub"])("can fully score Local SEO for the short category %s", (category) => {
+    const input = demo("demo-bluebird-bakery");
+    input.business.category = category;
+    const report = audit(input);
+    expect(report.categories.find((c) => c.id === "local_seo")!.status).toBe("complete");
+    expect(report.overall.status).toBe("final");
+  });
+});

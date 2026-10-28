@@ -83,13 +83,14 @@ export function BusinessSearch() {
           </div>
         )}
         {results.length > 0 && (
-          <ul className="grid gap-3" role="listbox" aria-label="Search results">
+          <ul className="grid gap-3" aria-label="Search results">
             {results.map((r) => {
               const isSelected = r.id === selectedId;
               return (
-                <li key={r.id} role="option" aria-selected={isSelected}>
+                <li key={r.id}>
                   <button
                     type="button"
+                    aria-pressed={isSelected}
                     onClick={() => setSelectedId(isSelected ? null : r.id)}
                     className={`w-full rounded-xl border bg-white p-4 text-left transition ${
                       isSelected ? "border-brand-500 ring-4 ring-brand-100" : "border-slate-200 hover:border-slate-300"

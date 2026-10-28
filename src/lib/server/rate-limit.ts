@@ -23,7 +23,17 @@ export function rateLimit(key: string, limit: number, windowMs: number, now = Da
   return { ok: true, retryAfterSeconds: 0 };
 }
 
+/**
+ * Best-effort client identifier for rate limiting.
+ *
+ * Prefers `x-real-ip`, which hosting platforms and reverse proxies set
+ * themselves. Otherwise uses the *last* `x-forwarded-for` entry — the one
+ * appended by our own proxy — because earlier entries are supplied by the
+ * client and can be forged to dodge the limit.
+ */
 export function clientKey(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || request.headers.get("x-real-ip") || "anonymous";
+  const realIp = request.headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+  const hops = request.headers.get("x-forwarded-for")?.split(",").map((h) => h.trim()).filter(Boolean);
+  return hops?.at(-1) || "anonymous";
 }
